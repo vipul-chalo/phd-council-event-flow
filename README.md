@@ -22,7 +22,7 @@ The page demonstrates how the PhD Council could present itself online, covering 
 Open `index.html` in any modern web browser. No build tools or dependencies are required — the page is self-contained HTML and CSS.
 
 Alternatively, the page is hosted via GitHub Pages at:  
-`https://<your-username>.github.io/<repo-name>/`
+`[https://<your-username>.github.io/<repo-name>/](https://vipul-chalo.github.io/uhasselt-phd-council/)`
 
 ## Contributing
 
