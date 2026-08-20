@@ -1,4 +1,4 @@
-# PhD Council — Event Invite Guide
+# PhD Council Event Invite Guide
 
 A single-page, step-by-step guide that walks a first-timer through setting up a
 **Microsoft Power Automate** flow: when someone registers for an event via
@@ -7,7 +7,7 @@ A single-page, step-by-step guide that walks a first-timer through setting up a
 
 Built for the **UHasselt PhD Council**, but the steps work for any event.
 
-🔗 **Live page:** `https://<your-username>.github.io/<repo-name>/`
+🔗 **Live page:** `https://vipul-chalo.github.io/phd-council-event-flow/`
 *(fill in once GitHub Pages is enabled — see below)*
 
 ---
