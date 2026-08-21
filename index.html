@@ -74,6 +74,16 @@
     border-radius:99px;background:var(--card);color:var(--muted);
   }
   .chip b{color:var(--ink);font-weight:600;}
+  .reset{
+    font-family:"Inter",sans-serif;font-size:13px;font-weight:600;
+    padding:6px 14px;border-radius:99px;cursor:pointer;
+    background:var(--ink);color:#fff;border:1px solid var(--ink);
+    display:none;align-items:center;gap:7px;
+    transition:background .2s ease,opacity .2s ease;
+  }
+  .reset.show{display:inline-flex;}
+  .reset:hover{background:#000;}
+  .reset svg{width:13px;height:13px;}
 
   /* steps */
   ol.steps{list-style:none;counter-reset:step;margin:8px 0 0;padding:0;}
@@ -226,6 +236,7 @@
       <span class="chip">⏱ About <b>30 minutes</b></span>
       <span class="chip">🧰 Microsoft <b>Forms + Power Automate</b></span>
       <span class="chip">🔁 Reuse for <b>any event</b></span>
+      <button class="reset" id="resetBtn" type="button" aria-label="Mark all steps undone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Mark all undone</button>
     </div>
   </header>
 
@@ -240,7 +251,7 @@
       <div class="step-body">
         <p>Everything starts from a Microsoft Form — that's how people sign up.</p>
         <ul>
-          <li>Go to <a href="https://forms.office.com" target="_blank" rel="noopener">forms.office.com</a> and sign in with your university account.</li>
+          <li>Go to <a href="https://forms.office.com" target="_blank" rel="noopener">forms.office.com</a> and follow the sign-up or sign-in process with your <strong>UHasselt staff account</strong>.</li>
           <li>Click <span class="ui">New Form</span>, give it a title, and add your questions (at least a name and a staff email question).</li>
         </ul>
         <p class="note">The email question is the important one — the invite is sent to whatever address people enter there.</p>
@@ -257,11 +268,12 @@
       <div class="step-body">
         <p>The “flow” is the little robot that watches your form and sends the emails.</p>
         <ul>
-          <li>Go to <a href="https://flow.microsoft.com" target="_blank" rel="noopener">flow.microsoft.com</a> and sign in.</li>
+          <li>Go to <a href="https://flow.microsoft.com" target="_blank" rel="noopener">flow.microsoft.com</a> and follow the sign-up or sign-in process with your <strong>UHasselt staff account</strong>.</li>
           <li>Click <span class="ui">Create</span> → <span class="ui">Automated cloud flow</span>. Give it a name like “Event invite”.</li>
           <li>For the trigger, search <strong>Microsoft Forms</strong> and pick <span class="ui">When a new response is submitted</span>. Click Create.</li>
-          <li>In that first step, set <span class="ui">Form Id</span> to the form you just made.</li>
+          <li>In that first step, set <span class="ui">Form Id</span> to the title of the form you just made. It should show up in the dropdown options.</li>
         </ul>
+        <p class="note">When you set Microsoft Forms as the trigger, you might have to approve a connection between Microsoft Power Automate & Forms.</p>
       </div>
       <button class="toggle" data-step="2"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Mark done</button>
     </li>
@@ -277,7 +289,7 @@
         <ul>
           <li>Click the <span class="ui">+</span> under your first step → <span class="ui">Add an action</span>.</li>
           <li>Search <strong>Compose</strong> and add it. Rename it to “Calendar file”.</li>
-          <li>Paste the text below into its <span class="ui">Inputs</span> box, then change the five highlighted lines to match your event.</li>
+          <li>Paste the text below into its <span class="ui">Inputs</span> box, then change the six highlighted lines to match your event.</li>
         </ul>
 
         <div class="code">
@@ -320,8 +332,9 @@ END:VCALENDAR</pre>
           <div class="row"><div class="k">UID</div><div class="v">A unique tag for this event. Use a fresh one for every new event, e.g. <code>wellbeing-2026@uhasselt.be</code>.</div></div>
           <div class="row"><div class="k">DTSTART</div><div class="v">Start date + local time. <code>20260925T150000</code> = 25 Sep 2026, 3:00 PM. Just type the normal Belgian time.</div></div>
           <div class="row"><div class="k">DTEND</div><div class="v">End date + time, same format.</div></div>
-          <div class="row"><div class="k">SUMMARY</div><div class="v">The event's name.</div></div>
-          <div class="row"><div class="k">LOCATION</div><div class="v">Where it is. Put a <code>\</code> before any comma.</div></div>
+          <div class="row"><div class="k">SUMMARY</div><div class="v">The event's name that will be displayed in their calendar.</div></div>
+          <div class="row"><div class="k">LOCATION</div><div class="v">Where it is. Put a "<code>\</code>" before any comma.</div></div>
+          <div class="row"><div class="k">DESCRIPTION</div><div class="v">A small description of the event for their calendar.</div></div>
         </div>
         <p class="note">You don't need to touch the timezone block at the top — it quietly handles summer vs winter time so your times are always right.</p>
       </div>
@@ -339,9 +352,9 @@ END:VCALENDAR</pre>
           <li>Click <span class="ui">+</span> under the Calendar file step → <span class="ui">Add an action</span>.</li>
           <li>Search <strong>Microsoft Forms</strong> → pick <span class="ui">Get response details</span>.</li>
           <li>Set <span class="ui">Form Id</span> to your form.</li>
-          <li>Click the <span class="ui">Response Id</span> box and choose <strong>List of response notifications Response Id</strong> from the list that pops up.</li>
+          <li>Click the <span class="ui">Response Id</span> box, type in "/", and click on <span class="ui">⚡ Insert dynamic content</span>.</li>
+          <li>Choose <strong>Response Id</strong> from the list that pops up.</li>
         </ul>
-        <p class="note">A grey <strong>“Apply to each”</strong> box will appear around this step on its own. That's normal and correct — leave it. It just means “do this once for each person”.</p>
       </div>
       <button class="toggle" data-step="4"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Mark done</button>
     </li>
@@ -353,25 +366,24 @@ END:VCALENDAR</pre>
         <h2 class="step-title">Send the email with the invite</h2>
       </div>
       <div class="step-body">
-        <p>Work <strong>inside</strong> that grey “Apply to each” box for this step.</p>
         <ul>
-          <li>Click <span class="ui">+</span> inside the box → <span class="ui">Add an action</span>.</li>
+          <li>Click <span class="ui">+</span> under the Get response details step → <span class="ui">Add an action</span>.</li>
           <li>Search <strong>Office 365 Outlook</strong> → pick <span class="ui">Send an email (V2)</span>.</li>
-          <li><span class="ui">To</span>: choose your form's <strong>staff email</strong> answer from the list.</li>
-          <li><span class="ui">Subject</span> and <span class="ui">Body</span>: write your confirmation message (date, time, place). To personalise it, start the body with <strong>Dear</strong> and then pick your form's <strong>name</strong> answer from the list — so each email opens “Dear [their name]”.</li>
+          <li><span class="ui">To</span>: Click on ⚙️ next to it and choose <span class="ui">⚡ Use dynamic content</span>. Now, type in "/", and click on <span class="ui">⚡ Insert dynamic content</span>. Choose your form's <strong>staff email address</strong> answer from the list.</li>
+          <li><span class="ui">Subject</span> and <span class="ui">Body</span>: Write your confirmation message (date, time, place). To personalise it, start the body with <strong>Dear</strong> and then, using dynamic content, pick your form's <strong>name</strong> answer from the list — so each email opens “Dear [their name]”.</li>
           <li>Click <span class="ui">Show all</span> to find more options:
             <ul>
               <li><span class="ui">From (Send as)</span>: type <code>phdcouncil@uhasselt.be</code> so the email comes from the council, not your personal account.</li>
               <li><span class="ui">Attachments</span> → <span class="ui">Add new item</span>:
                 <ul>
-                  <li><strong>Name:</strong> <code>event.ics</code></li>
-                  <li><strong>Content:</strong> choose <strong>Outputs</strong> of your Calendar file step.</li>
+                  <li><strong>Name:</strong> <code>myeventname.ics</code></li>
+                  <li><strong>Content:</strong> Choose <strong>Outputs</strong> of your Calendar file step using dynamic content.</li>
                 </ul>
               </li>
             </ul>
           </li>
         </ul>
-        <p class="note">If the <span class="ui">To</span> box can't find your email answer, your email step slipped outside the grey box — drag it back inside.</p>
+        <p class="note">If the <span class="ui">To</span> box can't find your email answer, you haven't enabled dynamic content for that box — enable it.</p>
       </div>
       <button class="toggle" data-step="5"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Mark done</button>
     </li>
@@ -386,7 +398,7 @@ END:VCALENDAR</pre>
         <ul>
           <li>Click <span class="ui">Save</span> (top right).</li>
           <li>Open your form and submit one test answer as yourself.</li>
-          <li>Check your inbox — an email with <code>event.ics</code> should arrive within a minute.</li>
+          <li>Check your inbox — an email with <code>myeventname.ics</code> should arrive within a minute.</li>
           <li>Tap the file. Your calendar should offer to add the event at the right time. 🎉</li>
         </ul>
         <p class="note">Once one test works, you're done. It now runs by itself for everyone who registers.</p>
@@ -408,7 +420,7 @@ END:VCALENDAR</pre>
         <dt>The email arrived, but with no recipient / a blank “To”</dt>
         <dd>The <span class="ui">To</span> box isn't linked to your email question. Open the email step and set To to your form's staff email answer.</dd>
         <dt>The calendar file won't open</dt>
-        <dd>In the email step's attachment Content, replace what's there with <code>base64(outputs('Compose'))</code> and test again.</dd>
+        <dd>In the email step's attachment Content, replace what's there with <code>base64(outputs('Calendar_file'))</code> and test again.</dd>
         <dt>The event shows the wrong time</dt>
         <dd>Make sure you pasted the whole block including the timezone section, and typed normal Belgian time in DTSTART/DTEND (don't convert anything).</dd>
         <dt>People got two copies of the event</dt>
@@ -439,6 +451,17 @@ END:VCALENDAR</pre>
     }
     document.getElementById("pcount").textContent = n;
     document.getElementById("pbar").style.width = (n/6*100)+"%";
+    var rb = document.getElementById("resetBtn");
+    if(rb){ rb.classList.toggle("show", n > 0); }
+  }
+
+  var resetBtn = document.getElementById("resetBtn");
+  if(resetBtn){
+    resetBtn.addEventListener("click", function(){
+      done = {};
+      try { localStorage.removeItem(KEY); } catch(e){}
+      render();
+    });
   }
 
   document.querySelectorAll(".toggle").forEach(function(btn){
